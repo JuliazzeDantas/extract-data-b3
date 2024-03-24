@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from papers import Acoes
+from ativo_modelo import Acoes
 
 
 hash_acoes:Acoes = {}

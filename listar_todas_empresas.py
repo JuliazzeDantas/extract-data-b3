@@ -36,7 +36,6 @@ with open('lista_acoes.text', 'w') as arq:
                 if len(papel) == 0:
                     arq.write('SOJA3\n')
                 elif papel[-1].strip()!='F':
-                    arq.write(papel.strip()+'\n')
-                
+                    arq.write(papel.strip()+'\n')              
 
 arq.close()
