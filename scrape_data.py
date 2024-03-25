@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class Scraper():
     
-    url='https://statusinvest.com.br/acoes/'
+    url='https://statusinvest.com.br/'
     path_list_acoes='lista_acoes.txt'
     list_acoes:list
 
@@ -33,9 +33,19 @@ class Scraper():
             self.list_acoes=arq_acoes.read().split('\n')
         arq_acoes.close()
 
+    
+    def set_url_fii(self, fii):
+        url_fii=self.url+'fundos-imobiliarios/'+fii
+        self.get_url(url_fii)
+
+
+    def set_url_fiagro(self, fiagro):
+        url_fiagro=self.url+'fiagros/'+fiagro
+        self.get_url(url_fiagro)
+
 
     def set_url_acao(self, acao):
-        url_acao=self.url+acao
+        url_acao=self.url+'acoes/'+acao
         self.get_url(url_acao)
 
 
@@ -51,7 +61,7 @@ class Scraper():
 
     def get_name(self):
         xpath_name='/html/body/main/header/div[2]/div/div[1]/h1/small'
-        return self.driver.find_element(By.XPATH, xpath_name)
+        return self.driver.find_element(By.XPATH, xpath_name).text
 
 
     def get_currently_price(self):
@@ -76,6 +86,7 @@ class Scraper():
         xpath_peg_ratio='/html/body/main/div[2]/div/div[8]/div[2]/div/div[1]/div/div[3]/div/div/strong'
         value=self.driver.find_element(By.XPATH, xpath_peg_ratio).text
         return self.format_data_number(value)
+  
     
     def get_pvp(self):
         xpath_pvp='/html/body/main/div[2]/div/div[8]/div[2]/div/div[1]/div/div[4]/div/div/strong'
@@ -146,7 +157,7 @@ class Scraper():
 
 
         
-x = Scraper()
+'''x = Scraper()
 acao='BBSE3'
 
 x.set_url_acao(acao)
@@ -166,5 +177,5 @@ print(x.get_lpa())
 print(x.get_p_sr())
 print(x.get_p_cap_giro())
 print(x.get_p_ativo_circ_liq())
-
+'''
 
