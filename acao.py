@@ -5,7 +5,7 @@ hash_acoes:Acoes = {}
 router = APIRouter()
  
 @router.get("/")
-def root():
+def root(): 
     return hash_acoes
 
 @router.get("/acoes/{paper}/price")
