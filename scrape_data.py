@@ -12,8 +12,6 @@ data=response.text
 soup = BeautifulSoup(data, 'html.parser')
 data_json={stock:{}}
 
-print(soup.prettify())
-
 for divs in soup.find_all('div', class_= "stock-details grid-m2-t3-d4"):
     for stock_detail in divs.find_all('div', class_="ratio"):
         dict_title = stock_detail.find_all('span')[0].text
