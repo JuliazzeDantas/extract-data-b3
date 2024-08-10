@@ -25,7 +25,7 @@ jobs:
                 pip install -r requirements.txt
 
             - name: Get Datas
-              run: export DATA=$(python3 scrap_data.py)
+              run: export DATA=$(python3 scrape_data.py)
 
             - name: Show data
               run: echo "${{ env.DATA }}"
