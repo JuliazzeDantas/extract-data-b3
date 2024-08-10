@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/cs399273/mercado-financeiro-b3/venv"
+VIRTUAL_ENV="/root/repos/Projects/extract-data-b3/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
