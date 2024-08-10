@@ -3,7 +3,7 @@ from ativo_modelo import Acoes
 
 hash_acoes:Acoes = {}
 router = APIRouter()
-
+ 
 @router.get("/")
 def root():
     return hash_acoes
