@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from ativo_modelo import Acoes
 
-
 hash_acoes:Acoes = {}
 router = APIRouter()
 
