@@ -1,0 +1,33 @@
+name: Create Repository Cookiecutter Azureml
+
+on:
+  push:
+
+jobs:
+    create-repo:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository content
+              uses: actions/checkout@v4
+              with:
+                ref: "use-bs4"
+
+
+            - name: Setup python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.x' 
+
+            
+            - name: Install dependencies
+              run: |
+                pip install requests
+                pip3 install beautifulsoup4
+                pip install json
+
+            - name: Get Datas
+              run: export DATA=$(python3 scrap_data.py)
+
+            - name: Show data
+              run: echo "${{ env.DATA }}"
+  
