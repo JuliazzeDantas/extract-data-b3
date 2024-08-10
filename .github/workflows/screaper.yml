@@ -21,9 +21,8 @@ jobs:
             
             - name: Install dependencies
               run: |
-                pip install requests
-                pip3 install beautifulsoup4
-                pip install json
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
 
             - name: Get Datas
               run: export DATA=$(python3 scrap_data.py)
