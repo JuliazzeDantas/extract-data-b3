@@ -4,6 +4,8 @@ import requests
 from datetime import datetime
 import json
 
+
+
 stock='itub4'
 
 url='https://www.fundamentus.com.br/detalhes.php?papel=itub4'
@@ -11,6 +13,8 @@ response=requests.get(url)
 data=response.text
 soup = BeautifulSoup(data, 'html.parser')
 data_json={stock:{}}
+
+print(soup)
 
 for divs in soup.find_all('div', class_= "stock-details grid-m2-t3-d4"):
     for stock_detail in divs.find_all('div', class_="ratio"):
