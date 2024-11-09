@@ -1,54 +1,65 @@
+# Imports do Selenium e WebDriver
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+# Tentativa futura de fazer Proxy
+from selenium.webdriver.common.proxy import Proxy, ProxyType # Olhar configuração de proxy caso o script volte a ser barrado no modo headless
+
+# Bibliotecas auxiliares
+import time
 from datetime import datetime
 
+# Imports para o Banco de Dados
+import json
+import mysql.connector
+
+conn = mysql.connector.connect(
+    host='localhost',
+    user='seu_usuario',
+    password='sua_senha',
+    database='seu_banco_de_dados'
+)
+
+#xpath_botao_fechar_anuncio = '/html/body/div[19]/div//section/div/div/div/div[2]/button'
+#xpath_verificador_anuncio = '/html/body/div[27]/div//section/div/div/div'  # if style = flex: fecha anuncio.  flex -> none
 
 class Scraper():
-    
-    url='https://statusinvest.com.br/'
-    path_list_acoes='lista_acoes.txt'
-    list_acoes:list
 
     driver:webdriver.Chrome
     service:Service
     wait:WebDriverWait
 
+    url='https://statusinvest.com.br/acoes/wege3'
+
     def __init__(self):
+        # Configura Options para o selelnium rodar em modo headless
+        self.options = webdriver.ChromeOptions()
+        self.options.add_argument("--no-sandbox")
+        self.options.add_argument("--headless=new")
+        self.options.add_argument("ignore-certificate-errors")
+        self.options.add_argument("--start-fullscreen")
+        self.options.add_argument("--disable-logging")
+        self.options.add_argument("--disable-gpu")
+        self.options.add_argument("--window-size=1920,1080")
+        self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36")
+
+        # Instala o driver do Chrome e inicia o Browser
         self.service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service = self.service)
+        self.driver = webdriver.Chrome(service = self.service, options=self.options)
         self.wait = WebDriverWait(self.driver, 10)
 
         self.get_url(self.url)
 
-
     def get_url(self, url):
         self.driver.get(url)
 
-
-    def read_arq_acoes(self):
-        with open(self.path_list_acoes, 'r') as arq_acoes:
-            self.list_acoes=arq_acoes.read().split('\n')
-        arq_acoes.close()
-
-    
-    def set_url_fii(self, fii):
-        url_fii=self.url+'fundos-imobiliarios/'+fii
-        self.get_url(url_fii)
-
-
-    def set_url_fiagro(self, fiagro):
-        url_fiagro=self.url+'fiagros/'+fiagro
-        self.get_url(url_fiagro)
-
-
     def set_url_acao(self, acao):
-        url_acao=self.url+'acoes/'+acao
+        url_acao='https://statusinvest.com.br/acoes/wege3'
         self.get_url(url_acao)
 
 
@@ -338,3 +349,8 @@ class Scraper():
 
             }
         }
+
+# Feche o navegador
+test = Scraper()
+print(json.dumps(test.get_acao('WEGE3'), indent=4, ensure_ascii=False))
+

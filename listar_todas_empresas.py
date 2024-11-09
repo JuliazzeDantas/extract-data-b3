@@ -1,41 +1,50 @@
-from bs4 import BeautifulSoup as bs4
+from bs4 import BeautifulSoup
+import requests
 
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
-from pydantic import BaseModel
 from ativo_modelo import Acoes
 
 acoes=''
+url = 'https://www.dadosdemercado.com.br/acoes'
+response=requests.get(url)
+data=response.text
+soup = BeautifulSoup(data, 'html.parser')
 
-service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service = service)
-wait = WebDriverWait(driver, 10)
+with open('list_stock.text', 'w') as arq:
+    for body_table in soup.find_all('tbody'):
+        for row_table in body_table.find_all('tr'):
+            arq.writelines(row_table.find('a').text + '\n')
 
-url='https://www.infomoney.com.br/cotacoes/empresas-b3/'
 
-driver.get(url)
-amontado_de_tabelas=driver.find_element(By.XPATH, '/html/body/div[5]/div[2]/div[2]') # Acha o local onde as tabelas estão
-list_table=amontado_de_tabelas.find_elements(By.CLASS_NAME, 'list-companies') # Faz uma lista das tabelas que existem no site
+with open("list_stock.text", 'r') as arq:
+    stock_list = arq.read().lower().split()
 
-with open('lista_acoes.text', 'w') as arq: 
-    for area in list_table: #Faz um loop para cada uma das tabelas
 
-        soup=bs4(area.get_attribute("innerHTML"), 'html.parser')
-        strong_elements = soup.find_all(class_='strong')   # Usa o bs4 para pegar o corpo html das tabelas 
+for stock in stock_list:
+    url=f'https://www.fundamentus.com.br/detalhes.php?papel=itub4'
+    response=requests.get(url)
+    data=response.text
+    soup = BeautifulSoup(data, 'html.parser')
+    data_json={stock:{}}
 
-        for element in strong_elements: # Pega linha por linha da tabela
-            a_tag = element.find('a')
-            if a_tag is not None:
-                papel=a_tag.text.strip()
-                if len(papel) == 0:
-                    arq.write('SOJA3\n')
-                elif papel[-1].strip()!='F':
-                    arq.write(papel.strip()+'\n')              
+    for divs in soup.find_all('div', class_= "stock-details grid-m2-t3-d4"):
+        print("divs")
+        for stock_detail in divs.find_all('div', class_="ratio"):
+            dict_title = stock_detail.find_all('span')[0].text
+            value = stock_detail.find_all('span')[1].text.replace('.','').replace(',','.')
+            if 'mi' in value:
+                value = value.replace('\u202fmi', '')
+                value = int(value)*1000000
+            elif 'bi' in value:
+                value = value.replace('\u202fbi', '')
+                value = int(value)*1000000000
+            elif "%" in value:
+                value = value.replace('%','')
+                value = float(value)/100
+                value = round(value, 4)
+            else: 
+                value = float(value)
+                value = round(value, 2)
+            data_json[stock][dict_title] = value
 
-arq.close()
+    print(data_json)
