@@ -359,8 +359,3 @@ class Scraper():
 
             }
         }
-
-# Feche o navegador
-test = Scraper()
-print(json.dumps(test.get_acao_valuation('WEGE3'), indent=4, ensure_ascii=False))
-

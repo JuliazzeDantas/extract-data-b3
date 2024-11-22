@@ -33,3 +33,9 @@ RUN pip install \
     --user \
     -r ./requirements.txt \
 && rm -rf ./requirements.txt
+
+COPY lists/list_acao.txt .
+COPY get_stock.py .
+COPY scrape_data.py .
+
+CMD ["python3", "scrape_data.py", "arg1"]

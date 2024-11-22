@@ -1,5 +1,6 @@
 from scrape_data import Scraper
 import sys
+import json
 
 def main(stock):
     # Instanciando o objeto Scraper
@@ -14,7 +15,7 @@ def main(stock):
     print(acoes)
 
     # passar para
-    print(scraper.get_acao_valuation(stock))
+    print(json.dumps(scraper.get_acao_valuation(stock), indent=4, ensure_ascii=False))
 
 if __name__ == "__main__":
     print(main(sys.argv[1]))
