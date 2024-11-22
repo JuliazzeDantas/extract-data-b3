@@ -1,21 +1,20 @@
 from scrape_data import Scraper
+import sys
 
-with open('lists/list_acao.txt', 'r') as arq:
-    acoes = arq.readlines()
+def main(stock):
+    # Instanciando o objeto Scraper
+    scraper = Scraper()
 
-arq.close()
+    # Get list of Stocks
+    with open('lists/list_acao.txt', 'r') as arq:
+        acoes = arq.readlines()
+    arq.close()
 
-acoes = [acao.strip() for acao in acoes]
-print(acoes)
+    acoes = [acao.strip() for acao in acoes]
+    print(acoes)
 
-scraper = Scraper()
+    # passar para
+    print(scraper.get_acao_valuation(stock))
 
-with open('lists/list_acao.txt', 'r') as arq:
-    acoes = arq.readlines()
-
-arq.close()
-
-acoes = [acao.strip() for acao in acoes]
-print(acoes)
-
-print(scraper.get_acao_valuation('WEGE3'))
+if __name__ == "__main__":
+    print(main(sys.argv[1]))
