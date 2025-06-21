@@ -1,8 +1,18 @@
-# Extract data from Brazilian Stocks.
+# Extrator de Dados de Ações Brasileiras
 
-## To run the code, follow the steps below:
-source venv/bin/activate
+## Propósito
 
-python3 get_stock.py '<brasilian_stock>'
+Esse projeto foi pensado para extrair dados de valuation de empresas listadas na B3.
 
-## It will return a JSON with valuation data from this stock
+## Funcionamento
+
+O script abre um navegador e pega os dados do site do Status Invest. Após fazer isso, ele monta um JSON com as informações e printa ele na tela
+
+### Como Rodar o projeto
+
+#### Imprimir em Telq
+
+~~~~source venv/bin/activate~~~~
+
+python3 scrape_data.py '<brasilian_stock>'
+It will return a JSON with valuation data from this stock

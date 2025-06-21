@@ -38,4 +38,4 @@ COPY lists/list_acao.txt .
 COPY get_stock.py .
 COPY scrape_data.py .
 
-CMD ["python3", "scrape_data.py", "arg1"]
+CMD ["python3", "scrape_data.py"]
