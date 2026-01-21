@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage
+  description: Repositório da plataforma Backstage 
+  annotations:
+    backstage.io/kubernetes-id: extract-data-b3 # Não altere. Responsável por ancorar possíveis componentes do Kubernetes
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: JuliazzeDantas/extract-data-b3 # Esse campo deve ser sempre igual ao nome do repositório
+spec:
+  type: repository # Sempre deixe esse campo como "repository" para que possamos filtrar ele depois
+  lifecycle: production # Estágio do Projeto
+  owner: group:default/teste
+  system: system:default/extract-data-b3
+  domain:  domain:default/teste
+  # dependsOn: # Se o projeto depende de outros projetos, coloque aqui. 
+  #   - resource:default/backstage
+  #   - component:default/component2
+  #   - component:default/component3 
